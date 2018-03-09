@@ -1,6 +1,7 @@
-package gr.com.arounder;
+package gr.com.arounder.cloud;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 public interface ArounderCloud {
 
@@ -8,5 +9,5 @@ public interface ArounderCloud {
     String getItem();
 
     @GetMapping("/around/{value}")
-    String around(String value);
+    String around(@PathVariable("value") String value);
 }
