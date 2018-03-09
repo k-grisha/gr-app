@@ -1,0 +1,11 @@
+server:
+  port: 8089
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${DISCOVERY_HOST:localhost}:${DISCOVERY_PORT:8761}/eureka
+  instance:
+    preferIpAddress: true
+management:
+  security:
+    enabled: ${actuator.protected:true}
