@@ -9,3 +9,6 @@ eureka:
 management:
   security:
     enabled: ${actuator.protected:true}
+feign:
+  hystrix:
+    enabled: true

@@ -14,7 +14,6 @@ public class MainController {
 
     @GetMapping("/hello/{name}")
     public String hello(@PathVariable String name) {
-        return "Hello my dear " + arounderClient.around(name);
-//        return "Hello my dear " + name;
+        return "Your name will be surrounded by " + arounderClient.getItem() + "\n" + arounderClient.around(name);
     }
 }
