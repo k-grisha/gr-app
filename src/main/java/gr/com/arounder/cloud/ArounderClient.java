@@ -1,5 +1,6 @@
 package gr.com.arounder.cloud;
 
+
 import feign.hystrix.FallbackFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Primary
-@FeignClient( name = "gr-arounder", fallback  = ArounderClientFallBack.class)
-public interface ArounderClient  {
-
+@FeignClient(name = "gr-arounder", fallbackFactory = ArounderClientFactoryFallBack.class)
+//@HystrixProperty(name = "hystrix.command.default.execution.timeout.enabled", value = "false")
+public interface ArounderClient {
     @GetMapping("/item")
     String getItem();
 
@@ -26,9 +27,10 @@ public interface ArounderClient  {
     int fuck();
 }
 
-@Component
-class ArounderClientFallBack implements ArounderClient{
+//@Component
+class ArounderClientFallBack implements ArounderClient {
     private static Logger LOGGER = LoggerFactory.getLogger(ArounderClientFallBack.class);
+
     @Override
     public String getItem() {
         LOGGER.warn("Arrounder fallback getItem");
@@ -55,14 +57,16 @@ class ArounderClientFallBack implements ArounderClient{
 }
 
 
+@Component
 class ArounderClientFactoryFallBack implements FallbackFactory<ArounderClient> {
 
     private static Logger LOGGER = LoggerFactory.getLogger(ArounderClientFactoryFallBack.class);
 
+
     @Override
     public ArounderClient create(Throwable throwable) {
-        return new ArounderClient(){
-
+        LOGGER.warn(throwable.getMessage() == null ? "Zapusk!!!" : throwable.getMessage(), throwable);
+        return new ArounderClient() {
             @Override
             public String getItem() {
                 LOGGER.warn("Arrounder fallback getItem");
