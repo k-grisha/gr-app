@@ -3,7 +3,9 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${DISCOVERY_HOST:localhost}:${DISCOVERY_PORT:8761}/eureka
+      defaultZone: http://proga.pw:8761/eureka
+#    включить дискавери
+    enabled: true
   instance:
     preferIpAddress: true
 management:
@@ -23,7 +25,7 @@ feign:
 #        Если же добавить readTimeout >1000, то запрос один и ошибка
 #com.netflix.hystrix.exception.HystrixTimeoutException: null
 #	at com.netflix.hystrix.AbstractCommand$HystrixObservableTimeoutOperator$1$1.run(AbstractCommand.java:1154) [hystrix-core-1.5.12.jar:1.5.12]
-        readTimeout: 4000
+        readTimeout: 5500
         loggerLevel: FULL
 #Включаем хистрикс, нужен для фолбэков на ФеигнКлиенте
   hystrix:
@@ -31,3 +33,5 @@ feign:
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
+
+spring.zipkin.baseUrl: http://GR-ZIPKIN/

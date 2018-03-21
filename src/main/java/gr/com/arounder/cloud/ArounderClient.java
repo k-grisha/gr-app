@@ -65,7 +65,12 @@ class ArounderClientFactoryFallBack implements FallbackFactory<ArounderClient> {
 
     @Override
     public ArounderClient create(Throwable throwable) {
-        LOGGER.warn(throwable.getMessage() == null ? "Zapusk!!!" : throwable.getMessage(), throwable);
+        if (throwable.getMessage() == null) {
+            LOGGER.warn("Zapusk!!!", throwable);
+        } else {
+            LOGGER.warn(" FallBack reason is: " + throwable.getMessage(), throwable);
+        }
+
         return new ArounderClient() {
             @Override
             public String getItem() {
@@ -88,7 +93,12 @@ class ArounderClientFactoryFallBack implements FallbackFactory<ArounderClient> {
             @Override
             public int fuck() {
                 LOGGER.warn("Arrounder fallback fuck ");
-                return 0;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return 999;
             }
         };
     }

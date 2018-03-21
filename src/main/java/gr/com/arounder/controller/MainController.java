@@ -20,7 +20,7 @@ public class MainController {
 
     @GetMapping("/hello/{name}")
     public String hello(@PathVariable String name) {
-        LOGGER.warn("hello controller with PathVariable =" + name);
+        LOGGER.info("hello controller with PathVariable =" + name);
 //        int hash = arounderClient.hash(name);
         String item = arounderClient.getItem();
         String roundName = arounderClient.around(name);
@@ -30,7 +30,7 @@ public class MainController {
     }
 
     @GetMapping("/fuck")
-    public void fuck() {
-        arounderClient.fuck();
+    public String fuck() {
+        return "----- " + arounderClient.fuck() + " -----";
     }
 }
