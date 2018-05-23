@@ -11,23 +11,30 @@ eureka:
 management:
   security:
     enabled: ${actuator.protected:true}
+#feign:
+#  client:
+#    config:
+#      gr-arounder:
+#        connectTimeout: 1000
+##        без readTimeout, через 1000мс выкидывается ошибка и запрос зачем-то отправляется еще раз
+##com.netflix.hystrix.exception.HystrixTimeoutException: null
+##	at com.netflix.hystrix.AbstractCommand$HystrixObservableTimeoutOperator$1$1.run(AbstractCommand.java:1154) [hystrix-core-1.5.12.jar:1.5.12]
+##       Если же добавить readTimeout <1000, то бросается одна ошибка и запрос ходит только раз
+##feign.RetryableException: Read timed out executing GET http://gr-arounder/hash/asdf
+##	at feign.FeignException.errorExecuting(FeignException.java:67) ~[feign-core-9.5.0.jar:na]
+##        Если же добавить readTimeout >1000, то запрос один и ошибка
+##com.netflix.hystrix.exception.HystrixTimeoutException: null
+##	at com.netflix.hystrix.AbstractCommand$HystrixObservableTimeoutOperator$1$1.run(AbstractCommand.java:1154) [hystrix-core-1.5.12.jar:1.5.12]
+#        readTimeout: 1500
+#        loggerLevel: FULL
+
 feign:
-  client:
-    config:
-      gr-arounder:
-        connectTimeout: 1000
-#        без readTimeout, через 1000мс выкидывается ошибка и запрос зачем-то отправляется еще раз
-#com.netflix.hystrix.exception.HystrixTimeoutException: null
-#	at com.netflix.hystrix.AbstractCommand$HystrixObservableTimeoutOperator$1$1.run(AbstractCommand.java:1154) [hystrix-core-1.5.12.jar:1.5.12]
-#       Если же добавить readTimeout <1000, то бросается одна ошибка и запрос ходит только раз
-#feign.RetryableException: Read timed out executing GET http://gr-arounder/hash/asdf
-#	at feign.FeignException.errorExecuting(FeignException.java:67) ~[feign-core-9.5.0.jar:na]
-#        Если же добавить readTimeout >1000, то запрос один и ошибка
-#com.netflix.hystrix.exception.HystrixTimeoutException: null
-#	at com.netflix.hystrix.AbstractCommand$HystrixObservableTimeoutOperator$1$1.run(AbstractCommand.java:1154) [hystrix-core-1.5.12.jar:1.5.12]
-        readTimeout: 5500
-        loggerLevel: FULL
-#Включаем хистрикс, нужен для фолбэков на ФеигнКлиенте
+#  client:
+#    config:
+#      gr-arounder:
+#        connectTimeout: 1000
+#        readTimeout: 2000
+  #Включаем хистрикс, нужен для фолбэков на ФеигнКлиенте
   hystrix:
     enabled: true
 ribbon:
@@ -35,3 +42,7 @@ ribbon:
   ConnectTimeout: 6000
 
 spring.zipkin.baseUrl: http://GR-ZIPKIN/
+spring:
+  sleuth:
+    sampler:
+      percentage: 1
